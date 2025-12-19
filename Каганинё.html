@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collect CV Data</title>
+</head>
+<body style="font-family: Verdana, sans-serif; background-color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; color: black;">
+
+    <form onsubmit="sendEmail(event)" style="background-color: white; padding: 20px; border-radius: 8px; border: 1px solid lightgray; width: 100%; max-width: 500px;">
+        <table border="1" style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th style="background-color: white; color: black; padding: 15px; text-align: center; font-size: 1.5em; border-bottom: 2px solid black;">Collect CV Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <input type="text" id="name" placeholder="Name" style="width: 48%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white;">
+                            <input type="text" id="surname" placeholder="Surname" style="width: 48%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white;">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <textarea id="personal_info" rows="4" placeholder="Personal Information" style="width: 95%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white; resize: vertical;"></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <span style="font-size: 0.9em; color: black; margin-bottom: 5px; display: block; font-weight: bold;">Hobileriniz:</span><br>
+                        <label style="display: inline-block; margin-right: 15px; margin-bottom: 5px; cursor: pointer; color: black;"><input type="checkbox" name="hobi" value="Kodlama"> Kodlama</label>
+                        <label style="display: inline-block; margin-right: 15px; margin-bottom: 5px; cursor: pointer; color: black;"><input type="checkbox" name="hobi" value="Finans"> Finans</label>
+                        <label style="display: inline-block; margin-right: 15px; margin-bottom: 5px; cursor: pointer; color: black;"><input type="checkbox" name="hobi" value="Spor"> Spor</label>
+                        <label style="display: inline-block; margin-right: 15px; margin-bottom: 5px; cursor: pointer; color: black;"><input type="checkbox" name="hobi" value="Kitap"> Kitap Okuma</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <span style="font-size: 0.9em; color: black; margin-bottom: 5px; display: block; font-weight: bold;">Fotoğraf Yükle:</span>
+                        <input type="file" id="fotograf" accept="image/*" style="width: 95%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <input type="password" id="password" placeholder="Password" style="width: 95%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid lightgray; text-align: left;">
+                        <select id="basvuru_alani" style="width: 95%; padding: 10px; border: 1px solid black; border-radius: 4px; font-family: inherit; box-sizing: border-box; background-color: white; cursor: pointer;">
+                            <option value="" disabled selected>Başvurulan Alan / Pozisyon Seçiniz...</option>
+                            <option value="Yönetim Bilişim Sistemleri">Yönetim Bilişim Sistemleri</option>
+                            <option value="Yazılım Geliştirme">Yazılım Geliştirme</option>
+                            <option value="Veri Analizi">Veri Analizi</option>
+                            <option value="Finans ve Borsa">Finans ve Borsa</option>
+                            <option value="Ekonomi">Ekonomi</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: center; border-bottom: none; padding-top: 20px;">
+                        <input type="submit" value="Gönder" style="padding: 10px 25px; border: 1px solid black; background-color: white; color: black; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 0 10px; width: auto;">
+                        <input type="reset" value="Temizle" style="padding: 10px 25px; border: 1px solid black; background-color: white; color: black; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 0 10px; width: auto;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <script>
+        function sendEmail(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const personalInfo = document.getElementById('personal_info').value;
+            const password = document.getElementById('password').value;
+            const position = document.getElementById('basvuru_alani').value;
+            
+            const hobbies = [];
+            document.querySelectorAll('input[name="hobi"]:checked').forEach(checkbox => {
+                hobbies.push(checkbox.value);
+            });
+
+            const emailBody = `
+                Ad: ${name}
+                Soyad: ${surname}
+                Kişisel Bilgiler: ${personalInfo}
+                Hobiler: ${hobbies.join(', ')}
+                Başvuru Alanı: ${position}
+                Şifre: ${password}
+            `;
+
+            const emailData = {
+                to: 'kagan.durmus61@mail.ru',
+                subject: 'CV Başvurusu',
+                text: emailBody
+            };
+
+            fetch('/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+            
+            alert('Fetch isteği gönderildi (Console kontrol edilebilir).');
+        }
+    </script>
+
+</body>
+</html>
